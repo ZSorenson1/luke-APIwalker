@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Num = (props) => {
-    const wordStyle = {
-        color: props.color,
-        background: props.bgcolor,
-    }
+    const [info, setInfo] = useState([])
+
+    useEffect(() => {
+        fetch('https://swapi.dev/api/'+props.cat+'/'+props.id)
+        .then(response => response.json())
+        .then(response => setInfo(response))
+    })
+
     return (
         <>
-            {
-            isNaN(+props.id) ? 
-            <h1 style={wordStyle}>{props.id}</h1> : 
-            <h1>The Number is: {props.id} </h1>
-            }
+            {Object.keys(info).map((item, i) => {
+                return <p><b>{item}</b> : {info[item]}</p>
+            })}
         </>
     )
 }
